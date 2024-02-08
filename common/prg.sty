@@ -1,0 +1,63 @@
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[magyar]{babel}
+\usepackage{indentfirst}
+\usepackage{graphicx}
+\usepackage{listingsutf8}
+\usepackage{textcomp}
+\usepackage{eurosym}
+\usepackage{mathtools}
+\lstset{literate=
+  {á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {ú}{{\'u}}1
+  {Á}{{\'A}}1 {É}{{\'E}}1 {Í}{{\'I}}1 {Ó}{{\'O}}1 {Ú}{{\'U}}1
+  {à}{{\`a}}1 {è}{{\`e}}1 {ì}{{\`i}}1 {ò}{{\`o}}1 {ù}{{\`u}}1
+  {À}{{\`A}}1 {È}{{\'E}}1 {Ì}{{\`I}}1 {Ò}{{\`O}}1 {Ù}{{\`U}}1
+  {ä}{{\"a}}1 {ë}{{\"e}}1 {ï}{{\"i}}1 {ö}{{\"o}}1 {ü}{{\"u}}1
+  {Ä}{{\"A}}1 {Ë}{{\"E}}1 {Ï}{{\"I}}1 {Ö}{{\"O}}1 {Ü}{{\"U}}1
+  {â}{{\^a}}1 {ê}{{\^e}}1 {î}{{\^i}}1 {ô}{{\^o}}1 {û}{{\^u}}1
+  {Â}{{\^A}}1 {Ê}{{\^E}}1 {Î}{{\^I}}1 {Ô}{{\^O}}1 {Û}{{\^U}}1
+  {œ}{{\oe}}1 {Œ}{{\OE}}1 {æ}{{\ae}}1 {Æ}{{\AE}}1 {ß}{{\ss}}1
+  {ç}{{\c c}}1 {Ç}{{\c C}}1 {ø}{{\o}}1 {å}{{\r a}}1 {Å}{{\r A}}1
+  {€}{{\EUR}}1 {£}{{\pounds}}1 {ő}{{\H{o}}}1 {ű}{{\H{u}}}1 {Ő}{{\H{O}}}1
+}
+\lstdefinestyle{cpp}{language=[ISO]C++,
+showstringspaces=false,
+keywordstyle=\color{MidnightBlue}\bfseries,
+stringstyle=\color{DarkOrchid},
+commentstyle=\color{Brown},
+morecomment=[l][\color{OliveGreen}]{\#}
+}
+
+\usepackage{hyperref}
+\usepackage{attachfile}
+\usepackage{multirow}
+% Navigációs pöttyök hozzáadása subsection nélküli fejezetekhez
+%\usepackage{remreset}
+%\makeatletter
+%\@removefromreset{subsection}{section}
+%\makeatother
+%\setcounter{subsection}{1}
+%%%%%
+\attachfilesetup{color={1.0 0.6 0.0},author={HFM},description={Kattintson duplán a minta %
+megtekintéséhez!},icon=Paperclip}
+\definecolor{kiemelesszin}{rgb}{0.6,0.0,0.0}
+\definecolor{kiemelesszinZ}{rgb}{0.0,0.6,0.0}
+\definecolor{kiemelesszinN}{RGB}{196,127,0}
+\definecolor{hivatkozasszin}{rgb}{0.0,0.0,0.75}
+\newcommand{\kiemel}[1]{{\color{kiemelesszin}#1}}
+\newcommand{\kiemelZ}[1]{{\color{kiemelesszinZ}#1}}
+\newcommand{\kiemelN}[1]{{\color{kiemelesszinN}#1}}
+\newcommand{\hiv}[1]{{\color{hivatkozasszin}#1}}
+\newcommand{\logoalul}{
+  \begin{picture}(0,0)
+    \put(120,-0){\hbox{\includegraphics[scale=.5]{../common/sze_logo.pdf}}}
+    \put(205,-1){\hbox{\includegraphics[scale=.3]{../common/dept_it.png}}}
+  \end{picture}
+}
+
+\frenchspacing
+\usetheme[compress]{Berlin}
+
+\author{Dr. Hatwagner F. Miklós}
+\institute{Széchenyi István Egyetem, Győr}
+\date{\hiv{\href{https://github.com/wajzy/GKxB\_INTM114.git}{https://github.com/wajzy/GKxB\_INTM114.git}}\\ \today}

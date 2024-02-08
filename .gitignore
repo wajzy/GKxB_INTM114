@@ -1,0 +1,17 @@
+# LaTeX temps
+*.toc
+*.log
+*.aux
+*.bbl
+*.blg
+*.dvi
+*.ps
+*.spl
+*.nav
+*.out
+*.snm
+*.tex.backup
+*.vrb
+*.synctex.gz
+*.out
+*.exe
