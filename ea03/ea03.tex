@@ -1,0 +1,296 @@
+\documentclass[usenames,dvipsnames,aspectratio=169]{beamer}
+\usepackage{../common/prg}
+
+\title[3. előadás]{Programozás}
+\subtitle{(GKxB\_INTM114)}
+
+\begin{document}
+
+%1
+\begin{frame}[plain]
+  \titlepage
+  \logoalul
+\end{frame}
+
+%2
+\section{Tömbök}
+\subsection{Kódismétlés csökkentése tömbökkel}
+\begin{frame}
+  \begin{exampleblock}{\textattachfile{haromszog1.cpp}{haromszog1.cpp} Háromszög szerkeszthetősége; az oldalhossz beolvasása 3x ismétlődik!}
+    \tiny
+    \vspace{-.2cm}
+    \lstinputlisting[style=cpp,numbers=left]{haromszog1.cpp}
+    \vspace{-.2cm}
+  \end{exampleblock}
+\end{frame}
+
+%3
+\begin{frame}
+  \begin{exampleblock}{\textattachfile{haromszog3.cpp}{haromszog3.cpp}}
+    \tiny
+    \vspace{-.2cm}
+    \lstinputlisting[style=cpp,numbers=left]{haromszog3.cpp}
+    \vspace{-.2cm}
+  \end{exampleblock}
+\end{frame}
+
+%4
+\begin{frame}
+  Tömb definíció
+  \begin{itemize}
+    \item \emph{típus tömbazonosító[méret];}
+    \item pl. \texttt{int ot[3];}
+    \item \emph{méret} pozitív, egész értékű \emph{állandó kifejezés}
+    \item \emph{állandó kifejezés} értéke fordítási időben kiszámítható
+  \end{itemize}
+  Tömb tárigénye
+  \begin{itemize}
+    \item[] \emph{sizeof(tömbazonosító) $\equiv$ méret*sizeof(típus)}
+  \end{itemize}
+  Tömbelemek (indexes változó) elérése
+  \begin{itemize}
+    \item \emph{tömbazonosító[index]}
+    \item 0 $\leq$ \emph{index} $\leq$ \emph{méret}$-$1
+  \end{itemize}
+\end{frame}
+
+%5
+\begin{frame}
+  Oldal nevének előállítása
+  \begin{itemize}
+    \item Kihasználjuk, hogy az \hiv{\href{https://www.ascii-code.com/}{ASCII kódok}} a betűk abc-beli sorrendjének megfelelően növekednek ('A' == 65, 'B' == 66, 
+\dots, 'Z' == 90)
+    \item Hasonló a helyzet a számjegyekkel is ('0' == 48, '1' == 49, \dots, '9' == 57)
+    \item Számjegy $\to$ ASCII kód: \texttt{'0' + szamjegy}
+    \item ASCII kód $\to$ Számjegy: \texttt{karakter - '0'}
+    \item Betűk is hasonlóan kezelhetők
+  \end{itemize}
+\end{frame}
+
+%6
+\subsection{Számlálás tömbbel}
+\begin{frame}
+  \begin{exampleblock}{\textattachfile{szamlalo1.cpp}{szamlalo1.cpp} Számjegy karakterek számlálása, 1/2}
+    \tiny
+    \vspace{-.2cm}
+    \lstinputlisting[style=cpp,lastline=24,numbers=left]{szamlalo1.cpp}
+    \vspace{-.2cm}
+  \end{exampleblock}
+\end{frame}
+
+%7
+\begin{frame}
+  \begin{exampleblock}{\textattachfile{szamlalo1.cpp}{szamlalo1.cpp} 2/2}
+    \tiny
+    \lstinputlisting[style=cpp,firstline=25,numbers=left,firstnumber=25]{szamlalo1.cpp}
+  \end{exampleblock}
+  \vfill
+  Nyilvánvalóan szükségünk van egy tömbre!
+\end{frame}
+
+%8
+\begin{frame}
+  \begin{exampleblock}{\textattachfile{szamlalo2.cpp}{szamlalo2.cpp} 1/2}
+    \footnotesize
+    \vspace{-.2cm}
+    \lstinputlisting[style=cpp,lastline=15,numbers=left]{szamlalo2.cpp}
+    \vspace{-.2cm}
+  \end{exampleblock}
+\end{frame}
+
+%9
+\begin{frame}
+  \begin{exampleblock}{\textattachfile{szamlalo2.cpp}{szamlalo2.cpp} 2/2}
+    \scriptsize
+    \lstinputlisting[style=cpp,firstline=16,numbers=left,firstnumber=16]{szamlalo2.cpp}
+  \end{exampleblock}
+\end{frame}
+
+%10
+\begin{frame}
+  Tömbelemek, mint számlálók
+  \begin{itemize}
+    \item[] Az \kiemel{i} számjegy darabszámát \kiemel{szamjegy[i]} tárolja! (Azaz pl. 0-ból szamjegy[0], 1-ből szamjegy[1], stb. érkezett.)
+  \end{itemize}
+  \vfill
+  Tömbök inicializálása
+  \begin{itemize}
+    \item \emph{típus tömbazonosító[<méret>]<={inicializátorlista}>;}
+    \item Ha \emph{inicializátorlista} elemszáma $<$ \emph{méret} $\to$ további elemek nullázódnak
+    \item Ha \emph{inicializátorlista} elemszáma $>$ \emph{méret} $\to$ hiba!
+    \item Ha \emph{méret}-et nem specifikálták, a fordító megállapítja \emph{inicializátorlista} elemszámából
+    \item De a \emph{méret} és az \emph{inicializátorlista} közül legalább az egyiknek léteznie kell!
+  \end{itemize}
+\end{frame}
+
+%11
+\begin{frame}
+  \begin{exampleblock}{\textattachfile{szamlalo3.cpp}{szamlalo3.cpp}}
+    \tiny
+    \vspace{-.2cm}
+    \lstinputlisting[style=cpp,numbers=left]{szamlalo3.cpp}
+    \vspace{-.2cm}
+  \end{exampleblock}
+\end{frame}
+
+%12
+\section{Néhány elemi, tömböt használó algoritmus}
+\subsection{Számok kiírása fordított sorrendben}
+\begin{frame}
+  \begin{exampleblock}{\textattachfile{forditva1.cpp}{forditva1.cpp}}
+    \meret{7}
+    \lstinputlisting[style=cpp,numbers=left]{forditva1.cpp}
+  \end{exampleblock}
+\end{frame}
+
+%13
+\subsection{Bináris keresés}
+\begin{frame}
+  \begin{exampleblock}{\textattachfile{binker.cpp}{binker1.cpp} \kiemelN{\href{https://hu.wikipedia.org/wiki/Bin\%C3\%A1ris\_keres\%C3\%A9s}{Bináris keresés}}, 1/4}
+    \tiny
+    \vspace{-.2cm}
+    \lstinputlisting[style=cpp,numbers=left]{binker1.cpp}
+    \vspace{-.2cm}
+  \end{exampleblock}
+\end{frame}
+
+%14
+\begin{frame}
+  \begin{exampleblock}{\textattachfile{binker.cpp}{binker2.cpp} \kiemelN{\href{https://hu.wikipedia.org/wiki/Bin\%C3\%A1ris\_keres\%C3\%A9s}{Bináris keresés}}, 2/4}
+    \tiny
+    \vspace{-.2cm}
+    \lstinputlisting[style=cpp,numbers=left]{binker2.cpp}
+    \vspace{-.2cm}
+  \end{exampleblock}
+\end{frame}
+
+%15
+\begin{frame}
+  \begin{exampleblock}{\textattachfile{binker.cpp}{binker3.cpp} \kiemelN{\href{https://hu.wikipedia.org/wiki/Bin\%C3\%A1ris\_keres\%C3\%A9s}{Bináris keresés}}, 3/4}
+    \tiny
+    \vspace{-.2cm}
+    \lstinputlisting[style=cpp,numbers=left]{binker3.cpp}
+    \vspace{-.2cm}
+  \end{exampleblock}
+\end{frame}
+
+%16
+\begin{frame}
+  \begin{exampleblock}{\textattachfile{binker.cpp}{binker4.cpp} \kiemelN{\href{https://hu.wikipedia.org/wiki/Bin\%C3\%A1ris\_keres\%C3\%A9s}{Bináris keresés}}, 4/4}
+    \tiny
+    \vspace{-.2cm}
+    \lstinputlisting[style=cpp,numbers=left]{binker4.cpp}
+    \vspace{-.2cm}
+  \end{exampleblock}
+\end{frame}
+
+%17
+\subsection{Buborék rendezés}
+\begin{frame}
+  \begin{exampleblock}{\textattachfile{buborek.cpp}{buborek.cpp} \kiemelN{\href{https://hu.wikipedia.org/wiki/Bubor\%C3\%A9krendez\%C3\%A9s}{Buburékrendezés}}, %
+    \kiemelN{\href{https://www.baeldung.com/java-swap-two-variables}{elemcsere segédváltozó nélkül}}}
+    \tiny
+    \vspace{-.2cm}
+    \lstinputlisting[style=cpp,numbers=left]{buborek.cpp}
+    \vspace{-.2cm}
+  \end{exampleblock}
+\end{frame}
+
+%18
+\section{C++ karakterláncok, karakterek osztályozása és konverziója}
+\subsection{Az \texttt{std::string} típus}
+\begin{frame}
+  \begin{exampleblock}{\textattachfile{string.cpp}{string.cpp} string demo}
+    \scriptsize
+    \vspace{-.2cm}
+    \lstinputlisting[style=cpp,numbers=left]{string.cpp}
+    \vspace{-.2cm}
+  \end{exampleblock}
+\end{frame}
+
+%19
+\subsection{Konvertálás kettesből tízes számrendszerbe}
+\begin{frame}
+  \begin{exampleblock}{\textattachfile{kettes1.cpp}{kettes1.cpp} 2 $\to$ 10}
+    \footnotesize
+    \vspace{-.2cm}
+    \lstinputlisting[style=cpp,numbers=left]{kettes1.cpp}
+    \vspace{-.2cm}
+  \end{exampleblock}
+\end{frame}
+
+%20
+\subsection{Konvertálás tízesből kettes számrendszerbe}
+\begin{frame}
+  \begin{exampleblock}{\textattachfile{kettes2.cpp}{kettes2.cpp} 10 $\to$ 2}
+    \small
+    \lstinputlisting[style=cpp,numbers=left]{kettes2.cpp}
+  \end{exampleblock}
+\end{frame}
+
+%21
+\subsection{Neptun kód ellenőrzés}
+\begin{frame}
+  \begin{exampleblock}{\textattachfile{neptun1.cpp}{neptun1.cpp}}
+  \tiny
+  \vspace{-.2cm}
+  \lstinputlisting[style=cpp,numbers=left]{neptun1.cpp}
+  \vspace{-.2cm}
+\end{exampleblock}
+\end{frame}
+
+%22
+\begin{frame}
+  \scriptsize
+  \begin{exampleblock}{\textattachfile{neptun2.cpp}{neptun2.cpp}}
+  \meret{7}
+  \vspace{-.2cm}
+  \lstinputlisting[style=cpp,numbers=left]{neptun2.cpp}
+  \vspace{-.2cm}
+\end{exampleblock}
+\end{frame}
+
+%23
+\begin{frame}
+  Karakterek osztályozása, átalakítása
+  \begin{itemize}
+    \item \hiv{\href{https://en.cppreference.com/w/cpp/header/cctype}{\texttt{cctype}}} vagy \texttt{ctype.h} beszerkesztése szükséges
+    \item Függvények vagy makrók (előfeldolgozó)
+    \item Paraméter típusa \texttt{int}, de az értéknek \texttt{unsigned char}-ral ábrázolhatónak, vagy \texttt{EOF}-nak kell lennie
+    \item Visszatérési érték \texttt{int}, karakterosztályozó rutinoknál logikai értékként kezelendő
+  \end{itemize}
+  \begin{columns}[T]
+    \column{.4\textwidth}
+      \meret{9}
+      \begin{tabular}{ll}
+        Fv./makró név & Funkció\\ \hline
+        \texttt{islower(c)} & \texttt{c} kisbetű?\\
+        \texttt{isupper(c)} & \texttt{c} nagybetű?\\
+        \texttt{isalpha(c)} & \texttt{c} betű?\\
+        \texttt{isdigit(c)} & \texttt{c} számjegy?\\
+        \texttt{isalnum(c)} & \texttt{c} alfanumerikus?\\
+      \end{tabular}
+    \column{.55\textwidth}
+      \meret{9}
+      \begin{tabular}{ll}
+        Fv./makró név & Funkció\\ \hline
+        \texttt{isxdigit(c)} & \texttt{c} hexadecimális számjegy?\\
+        \texttt{isspace(c)} & \texttt{c} fehér karakter?\\
+        \texttt{isprint(c)} & \texttt{c} nyomtatható?\\
+        \texttt{tolower(c)} & \texttt{c} kisbetűs alakja, ha \texttt{c} nagybetű\\
+        \texttt{toupper(c)} & \texttt{c} nagybetűs alakja, ha \texttt{c} kisbetű
+      \end{tabular}
+  \end{columns}
+\end{frame}
+
+%24
+\begin{frame}
+  \begin{exampleblock}{\textattachfile{neptun3.cpp}{neptun3.cpp}}
+  \meret{7}
+  \vspace{-.2cm}
+  \lstinputlisting[style=cpp,numbers=left]{neptun3.cpp}
+  \vspace{-.2cm}
+\end{exampleblock}
+\end{frame}
+
+\end{document}
