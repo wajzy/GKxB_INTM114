@@ -3,7 +3,7 @@
 #define DB 10
 using namespace std;
 
-int main(void) {
+int main() {
   cout << "Szamjegyek, ures- es egyeb karakterek leszamlalasa\n"
        << "a bemeneten EOF-ig vagy Ctrl+D-ig.\n\n";
   int k, i, feher=0, egyeb=0;

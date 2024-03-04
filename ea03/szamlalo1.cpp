@@ -1,7 +1,7 @@
 #include <iostream>
 #include <cstdio>
 using namespace std;
-int main(void) {
+int main() {
   cout << "Szamjegyek, ures- es egyeb karakterek leszamlalasa\n"
        << "a bemeneten EOF-ig vagy Ctrl+D-ig.\n\n";
   int k, feher=0, egyeb=0;

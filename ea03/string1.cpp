@@ -1,7 +1,7 @@
 #include <iostream>
 using namespace std;
 
-int main(void) {
+int main() {
   string s1;
   string s2 = " es Bolka";              // inicializalas
   cout << "s1: " << s1 << '\n';          // ures string!
