@@ -8,7 +8,7 @@ int main() {
   while(sor <= A) {
     int oszlop = -B;
     while(oszlop <= B) {
-      if((sor*sor)/double(A*A) + (oszlop*oszlop)/double(B*B) <= 1) cout << '*';
+      if((sor*sor)/double(A*A) + (oszlop*oszlop)/double(B*B) <= 1.) cout << '*';
       else cout << ' ';
       oszlop++;
     }
