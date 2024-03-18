@@ -1,0 +1,457 @@
+\documentclass[usenames,dvipsnames,aspectratio=169]{beamer}
+\usepackage{../common/prg}
+
+\title[5. előadás]{Programozás}
+\subtitle{(GKxB\_INTM114)}
+
+\begin{document}
+
+%1
+\begin{frame}[plain]
+  \titlepage
+  \logoalul
+\end{frame}
+
+%2
+\section{Logikailag összetartozó adatok kezelése}
+\subsection{Azonos elemszámú, eltérő típusú/rendeltetésű tömbök használata}
+\begin{frame}
+  \begin{exampleblock}{\textattachfile{zh1.cpp}{zh1.cpp} Legeredményesebb hallgatók kikeresése}
+    \scriptsize
+    \lstinputlisting[style=cpp,linerange={1-16},numbers=left,firstnumber=1]{zh1.cpp}
+  \end{exampleblock}
+\end{frame}
+
+%3
+\begin{frame}
+  \begin{exampleblock}{\textattachfile{zh1.cpp}{zh1.cpp}}
+    \scriptsize
+    \lstinputlisting[style=cpp,linerange={17-25},numbers=left,firstnumber=17]{zh1.cpp}
+  \end{exampleblock}
+  \vfill
+  Probléma:
+  \begin{itemize}
+    \item egy hallgató neve és pontszáma szorosabb logikai kapcsolatban van, mint pl. a különféle hallgatók nevei
+    \item a tömbök viszont ezt nem tükrözik
+  \end{itemize}
+\end{frame}
+
+%4
+\subsection{Struktúrák fő jellemzői}
+\begin{frame}
+  Struktúrák fő jellemzői:
+  \begin{itemize}
+    \item logikailag összetartozó változók csoportjának egyszerűbb kezelése
+    \item összetett, felhasználói adattípus hozható létre
+    \item egy vagy több, elnevezett \emph{tag} együttese, önálló azonosítóval
+    \item lehetőségek:
+    \begin{itemize}
+      \item hozzárendelés (másolás)
+      \item átadhatók függvénynek paraméterként
+      \item lehet függvény visszatérési értéke
+    \end{itemize}
+    \item \kiemel{nem lehetséges: összehasonlítás} (esetleg tagonként)
+    \item struktúratag \emph{szinte} bármiből lehet
+  \end{itemize}
+\end{frame}
+
+%5
+\begin{frame}
+  \begin{exampleblock}{\textattachfile{zh2.cpp}{zh2.cpp} Legeredményesebb hallgatók kikeresése}
+    \vspace{-.2cm}
+    \meret{9}
+    \lstinputlisting[style=cpp,linerange={1-15},numbers=left,firstnumber=1]{zh2.cpp}
+    \vspace{-.2cm}
+  \end{exampleblock}
+\end{frame}
+
+
+%6
+\begin{frame}
+  \begin{exampleblock}{\textattachfile{zh2.cpp}{zh2.cpp}}
+    \meret{9}
+    \lstinputlisting[style=cpp,linerange={16-28},numbers=left,firstnumber=16]{zh2.cpp}
+  \end{exampleblock}
+\end{frame}
+
+%7
+\subsection{Struktúradeklaráció}
+\begin{frame}[fragile]
+  \footnotesize
+  Általános alak: \textbf{struct} \emph{{<}struktúracímke>} \emph{{<}{struktúratag-deklarációlista}> <azonosítólista>};
+  \begin{exampleblock}{Struktúradeklaráció példa}
+    \vspace{-.2cm}
+    \begin{verbatim}
+struct hallgato { // Struktúra deklarálása
+  string nev;
+  int pontszam;
+};
+
+struct hallgato mari; // Változók definiálása
+hallgato karcsi, hg[1000];
+\end{verbatim}
+  \vspace{-.2cm}
+  \end{exampleblock}
+  \begin{itemize}
+    \item \texttt{hallgato} a struktúra címkéje, a típust azonosítja:\\
+      \texttt{struct hallgato mari;} \\
+      \texttt{hallgato karcsi;}
+    \item Tagok: \texttt{nev, pontszam} (egyedi azonosítók)
+    \item Változók: \texttt{mari}, \texttt{karcsi}\\ 
+      \texttt{hg[1000]} egy 1000 elemű struktúratömb
+  \end{itemize}
+\end{frame}
+
+%8
+\begin{frame}[fragile]
+  Hol deklaráljuk a struktúrát?
+  \begin{itemize}
+    \item a típus első felhasználása előtt
+    \item jellemzően a forrás elején, minden függvényen kívül
+  \end{itemize}
+  Minden deklaráció \emph{egyedi típust hoz létre}, melyek nem azonosak akkor sem, ha szerkezetük megegyezik.
+  \meret{7}
+  \begin{exampleblock}{Típusok különbözősége}
+    \vspace{-.2cm}
+    \begin{verbatim}
+struct hallgato1 {
+  string nev; int pontszam;
+};
+
+struct hallgato2 {
+  string nev; int pontszam;
+};
+
+hallgato1 mari;
+hallgato2 gizi;
+gizi = mari; // error: no match for 'operator=' 
+             // (operand types are 'main()::hallgato2' and 'main()::hallgato1')
+\end{verbatim}
+    \vspace{-.2cm}
+  \end{exampleblock}
+\end{frame}
+
+%9
+\begin{frame}[fragile]
+  \begin{compactitem}
+    \item Struktúratag lehet pl.
+    \begin{compactitem}
+      \small
+      \item korábban definiált szerkezetű struktúra
+      \item beágyazott struktúra, akár címke nélkül is
+      \item tömb
+      \item (függvény $\to$ következő félév anyaga)
+    \end{compactitem}
+    \item A tag azonosítójának csak a struktúrán belül kell egyedinek lennie
+    \item A deklaráció végén lévő pontosvessző nem hagyható el!
+  \end{compactitem}
+  \small
+  \begin{exampleblock}{Helyes tagdeklarációk}
+    \vspace{-.2cm}
+    \begin{verbatim}
+struct s { int i; };
+struct tag_dekl {
+  struct s s1;
+  struct { int i; long l; } b;
+  int szamok[30];
+};
+\end{verbatim}
+    \vspace{-.2cm}
+  \end{exampleblock}
+\end{frame}
+
+%10
+\begin{frame}[fragile]
+  Struktúratag típusa nem lehet pl.
+  \begin{itemize}
+    \item \texttt{void}
+    \item saját maga
+  \end{itemize}
+  \begin{alertblock}{Hibás tagdeklarációk}
+    \vspace{-.2cm}
+    \begin{verbatim}
+struct nem_teljes;
+struct tag_hiba {
+  void v; /* error: variable or field 'v' declared void */
+  struct nem_teljes s; /* error: field 's' has incomplete type */
+  struct tag_hiba th; /* error: field 'th' has incomplete type */
+};
+\end{verbatim}
+    \vspace{-.2cm}
+  \end{alertblock}
+\end{frame}
+
+%11
+\subsection{Struktúratagok elérése}
+\begin{frame}[fragile]
+  Tagelérés operátor / szelekciós operátor / tagszelektor
+  \begin{compactitem}
+    \item \emph{struktúra\kiemel{.}tag}
+    \item Magas prioritású operátor, balról jobbra köt
+  \end{compactitem}
+  \scriptsize
+  \begin{exampleblock}{Struktúratagok elérése, értékadások}
+    \vspace{-.2cm}
+    \begin{verbatim}
+struct hallgato {
+  string nev;
+  string telSzamok[2];
+  struct {
+    int ev, ho, nap;
+  } szulDatum;
+};
+/* ... */
+hallgato gizi;
+gizi.nev = "Kovács Gizella";
+gizi.telSzamok[0] = "+36 1 123-4567"; gizi.telSzamok[1] = "96/123-456";
+gizi.szulDatum.ev = 1990; gizi.szulDatum.ho = 1; gizi.szulDatum.nap = 2;
+\end{verbatim}
+    \vspace{-.2cm}
+  \end{exampleblock}
+\end{frame}
+
+%12
+\subsection{Struktúrák inicializálása}
+\begin{frame}[fragile]
+  Az inicializáció során a tagok a deklarációbeli sorrendjükben veszik fel az inicializátorlista elemeinek értékét.\\
+  Az inicializátor azonos típusú struktúra is lehet.
+  \begin{exampleblock}{Struktúra inicializálása}
+    \vspace{-.2cm}
+    \begin{verbatim}
+struct hallgato {
+  string nev, neptun;
+  int ev, ho, nap;
+}; 
+
+hallgato gizi = { "Kovács Gizella", "A1B2C3", 1990, 4, 23 };
+hallgato mari = gizi;
+// mari = { "Nagy Maria", "ABC123", 1995, 5, 6 };
+// error: 'mari' does not name a type
+\end{verbatim}
+    \vspace{-.2cm}
+  \end{exampleblock}
+\end{frame}
+
+%13
+\begin{frame}[fragile]
+  \small
+  Struktúrába ágyazott tagok inicializálása: beágyazott inicializátorokkal
+  \begin{exampleblock}{Beágyazott struktúra és tömb inicializálása}
+    \vspace{-.2cm}
+    \scriptsize
+    \begin{verbatim}
+struct datum {
+  int ev, ho, nap;
+};
+struct hallgato {
+  string nev, neptun;
+  string telSzamok[2];
+  datum szulDatum, diplomaSzerzes;
+};
+hallgato gizi = { "Kovács Gizella", "A1B2C3", 
+  {"+36 1 123-4567", "+36 20 987-6543"}, 
+  {1990, 4, 23}, {2015, 6, 3} };
+\end{verbatim}
+    \vspace{-.2cm}
+  \end{exampleblock}
+  \begin{compactitem}
+    \item Inicializátorlista elemszáma nem haladhatja meg a tagok számát!
+    \item Ha viszont kevesebb elemű $\to$ nullázás
+    \item Aggregátumok esetén a \texttt{\{ \}} elhagyhatók, ill. valamennyi inicializátor köré is helyezhető, de
+\emph{célszerű} követni az aggregátum szerkezetét
+  \end{compactitem}
+\end{frame}
+
+%14
+\begin{frame}[fragile]
+  Kijelölt inicializátorok (\hiv{\href{https://www.cppstories.com/2021/designated-init-cpp20/}{designated initializers}}, C++20) használata: közvetlen hivatkozás a tagokra
+  \begin{exampleblock}{Dátum struktúra inicializálása}
+    \footnotesize
+    \vspace{-.2cm}
+    \begin{verbatim}
+struct datum {
+  int ev =  { 2023 };
+  int ho =  {   01 };
+  int nap = {   01 };
+} szulDatum = { .ho = 1, .nap = 26 };
+\end{verbatim}
+    \vspace{-.2cm}
+  \end{exampleblock}
+  \footnotesize
+  \begin{columns}[T]
+    \column{.45\textwidth}
+      \begin{compactitem}
+        \item Csak aggregátumok inicializálására használhatóak
+        \item (Csak nem statikus tagok inicializálhatók)
+        \item Az inicializálók sorrendjének egyeznie kell a tagok sorrendjével
+      \end{compactitem}
+    \column{.45\textwidth}
+    \begin{compactitem}
+      \item Nem kötelező az összes tagot inicializálni
+      \item Nem keverhető a hagyományos inicializáció a kijelölt inicializálókkal
+      \item Egy tag egy inicializálóval inicializálható
+      \item Nem lehet az inicializátorokat egymásba ágyazni
+    \end{compactitem}
+  \end{columns}
+\end{frame}
+
+%15
+\subsection{Mintapéldák -- Dátumok kezelése}
+\begin{frame}
+  \begin{exampleblock}{\textattachfile{naptar1.cpp}{naptar1.cpp} Dátumkezelő függvények}
+    \scriptsize
+    \vspace{-.2cm}
+    \lstinputlisting[style=cpp,linerange={4-20},numbers=left,firstnumber=4]{naptar1.cpp}
+    \vspace{-.2cm}
+  \end{exampleblock}
+\end{frame}
+
+%16
+\begin{frame}
+  \begin{exampleblock}{\textattachfile{naptar1.cpp}{naptar1.cpp}}
+    \footnotesize
+    \lstinputlisting[style=cpp,linerange={22-35},numbers=left,firstnumber=22]{naptar1.cpp}
+  \end{exampleblock}
+\end{frame}
+
+%17
+\begin{frame}
+  \begin{exampleblock}{\textattachfile{naptar1.cpp}{naptar1.cpp}}
+    \lstinputlisting[style=cpp,linerange={37-47},numbers=left,firstnumber=37]{naptar1.cpp}
+  \end{exampleblock}
+\end{frame}
+
+%18
+\begin{frame}
+  \begin{exampleblock}{\textattachfile{naptar1.cpp}{naptar1.cpp}}
+    \scriptsize
+    \lstinputlisting[style=cpp,linerange={49-64},numbers=left,firstnumber=49]{naptar1.cpp}
+  \end{exampleblock}
+\end{frame}
+
+%19
+\begin{frame}
+  \begin{exampleblock}{\textattachfile{naptar1.cpp}{naptar1.cpp}}
+    \lstinputlisting[style=cpp,linerange={66-74},numbers=left,firstnumber=66]{naptar1.cpp}
+  \end{exampleblock}
+\end{frame}
+
+%20
+\begin{frame}
+  \begin{exampleblock}{\textattachfile{naptar1.cpp}{naptar1.cpp}}
+    \footnotesize
+    \lstinputlisting[style=cpp,linerange={76-89},numbers=left,firstnumber=76]{naptar1.cpp}
+  \end{exampleblock}
+\end{frame}
+
+%21
+\begin{frame}[fragile]
+  \begin{block}{Kimenet}
+    \vspace{-.2cm}
+    \begin{verbatim}
+A megadott datum helyes.
+2024.3.20 az ev 80. napja, szerda.
+Hany nap van karacsonyig? 279
+2024 300. napja: 10.26
+\end{verbatim}
+    \vspace{-.2cm}
+  \end{block}
+\end{frame}
+
+%22
+\subsection{Mintapéldák -- Téglalapok rajzolása}
+\begin{frame}[fragile]
+  \scriptsize
+  \begin{block}{Kimenet (1/2) -- Téglalapok rajzolása}
+    \vspace{-.3cm}
+    \begin{verbatim}
+Rajzprogram - adja meg a téglalapok adatait!
+1. teglalap BF sarok X: [0, 78] (negativra vege) 1
+1. teglalap BF sarok Y[0, 23] 1
+1. teglalap JA sarok X[2, 79] 11
+1. teglalap JA sarok Y[2, 24] 11
+1. teglalap rajzoló karaktere: |
+2. teglalap BF sarok X: [0, 78] (negativra vege) 6
+2. teglalap BF sarok Y[0, 23] 6
+2. teglalap JA sarok X[7, 79] 16
+2. teglalap JA sarok Y[7, 24] 16
+2. teglalap rajzoló karaktere: +
+3. teglalap BF sarok X: [0, 78] (negativra vege) 15
+3. teglalap BF sarok Y[0, 23] 2
+3. teglalap JA sarok X[16, 79] 30
+3. teglalap JA sarok Y[3, 24] 7
+3. teglalap rajzoló karaktere: -
+4. teglalap BF sarok X: [0, 78] (negativra vege) -1
+...
+\end{verbatim}
+    \vspace{-.3cm}
+  \end{block}
+\end{frame}
+
+%23
+\begin{frame}[fragile]
+  \scriptsize
+  \begin{block}{Kimenet (2/2)}
+    \vspace{-.3cm}
+    \begin{verbatim}
+...
+ |||||||||||                                                                   
+ |||||||||||   ----------------                                                
+ |||||||||||   ----------------                                                
+ |||||||||||   ----------------                                                
+ |||||||||||   ----------------                                                
+ |||||+++++++++----------------                                                
+ |||||+++++++++----------------                                                
+ |||||+++++++++++                                                              
+ |||||+++++++++++                                                              
+ |||||+++++++++++                                                              
+ |||||+++++++++++                                                              
+      +++++++++++                                                              
+      +++++++++++                                                              
+      +++++++++++                                                              
+      +++++++++++                                                              
+      +++++++++++
+...
+\end{verbatim}
+    \vspace{-.3cm}
+  \end{block}
+\end{frame}
+
+%24
+\begin{frame}
+  \begin{exampleblock}{\textattachfile{teglalap1.cpp}{teglalap1.cpp}}
+    \scriptsize
+    \vspace{-.2cm}
+    \lstinputlisting[style=cpp,linerange={1-16},numbers=left,firstnumber=1]{teglalap1.cpp}
+    \vspace{-.2cm}
+  \end{exampleblock}
+\end{frame}
+
+%25
+\begin{frame}
+  \begin{exampleblock}{\textattachfile{teglalap1.cpp}{teglalap1.cpp}}
+    \tiny
+    \vspace{-.2cm}
+    \lstinputlisting[style=cpp,linerange={48-72},numbers=left,firstnumber=48]{teglalap1.cpp}
+    \vspace{-.2cm}
+  \end{exampleblock}
+\end{frame}
+
+%26
+\begin{frame}
+  \begin{exampleblock}{\textattachfile{teglalap1.cpp}{teglalap1.cpp}}
+    \lstinputlisting[style=cpp,linerange={38-47},numbers=left,firstnumber=38]{teglalap1.cpp}
+  \end{exampleblock}
+\end{frame}
+
+%27
+\begin{frame}
+  \begin{exampleblock}{\textattachfile{teglalap1.cpp}{teglalap1.cpp}}
+    \meret{7}
+    \vspace{-.2cm}
+    \lstinputlisting[style=cpp,linerange={18-37},numbers=left,firstnumber=18]{teglalap1.cpp}
+    \vspace{-.2cm}
+  \end{exampleblock}
+\end{frame}
+
+\end{document}
