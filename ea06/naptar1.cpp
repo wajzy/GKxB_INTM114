@@ -1,4 +1,5 @@
 #include <iostream>
+#include <iomanip>
 using namespace std;
 
 struct datum {
@@ -75,16 +76,15 @@ datum hoEsNap(int ev, int evNapja) { // nap even beluli
 
 int main(void) {
   datum d = {2024, 3, 20};
-  cout << "A megadott datum " 
-       << (ellenoriz(d)?"helyes":"hibas")
-       << ".\n" << d.ev << '.' << d.ho << '.' << d.nap
-       << " az ev " << evNapja(d) << ". napja, " 
-       << hetNapja(d) << ".\n";
+  cout << "A megadott datum " << (ellenoriz(d)?"helyes":"hibas")
+       << ".\n" << d.ev << '.' << setw(2) << setfill('0') << d.ho 
+       << '.' << setw(2) << setfill('0') << d.nap << " az ev " 
+       << evNapja(d) << ". napja, " << hetNapja(d) << ".\n";
   datum kar = {2024, 12, 24};
   cout << "Hany nap van karacsonyig? " << kulonbseg(d, kar);
   int evNapja = 300;
   d = hoEsNap(d.ev, evNapja);
   cout << '\n' << d.ev << ' ' << evNapja << ". napja: "
-       << d.ho << '.' << d.nap << endl;
+       << setw(2) << setfill('0') << d.ho << '.' << d.nap << endl;
   return 0; }
 

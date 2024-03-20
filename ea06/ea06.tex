@@ -187,7 +187,7 @@ struct tag_hiba {
   Tagelérés operátor / szelekciós operátor / tagszelektor
   \begin{compactitem}
     \item \emph{struktúra\kiemel{.}tag}
-    \item Magas prioritású operátor, balról jobbra köt
+    \item Magas precedenciájú operátor, balról jobbra köt
   \end{compactitem}
   \scriptsize
   \begin{exampleblock}{Struktúratagok elérése, értékadások}
@@ -301,7 +301,7 @@ struct datum {
   \begin{exampleblock}{\textattachfile{naptar1.cpp}{naptar1.cpp} Dátumkezelő függvények}
     \scriptsize
     \vspace{-.2cm}
-    \lstinputlisting[style=cpp,linerange={4-20},numbers=left,firstnumber=4]{naptar1.cpp}
+    \lstinputlisting[style=cpp,linerange={5-21},numbers=left,firstnumber=5]{naptar1.cpp}
     \vspace{-.2cm}
   \end{exampleblock}
 \end{frame}
@@ -310,14 +310,14 @@ struct datum {
 \begin{frame}
   \begin{exampleblock}{\textattachfile{naptar1.cpp}{naptar1.cpp}}
     \footnotesize
-    \lstinputlisting[style=cpp,linerange={22-35},numbers=left,firstnumber=22]{naptar1.cpp}
+    \lstinputlisting[style=cpp,linerange={23-36},numbers=left,firstnumber=23]{naptar1.cpp}
   \end{exampleblock}
 \end{frame}
 
 %17
 \begin{frame}
   \begin{exampleblock}{\textattachfile{naptar1.cpp}{naptar1.cpp}}
-    \lstinputlisting[style=cpp,linerange={37-47},numbers=left,firstnumber=37]{naptar1.cpp}
+    \lstinputlisting[style=cpp,linerange={38-48},numbers=left,firstnumber=38]{naptar1.cpp}
   \end{exampleblock}
 \end{frame}
 
@@ -325,14 +325,14 @@ struct datum {
 \begin{frame}
   \begin{exampleblock}{\textattachfile{naptar1.cpp}{naptar1.cpp}}
     \scriptsize
-    \lstinputlisting[style=cpp,linerange={49-64},numbers=left,firstnumber=49]{naptar1.cpp}
+    \lstinputlisting[style=cpp,linerange={50-65},numbers=left,firstnumber=50]{naptar1.cpp}
   \end{exampleblock}
 \end{frame}
 
 %19
 \begin{frame}
   \begin{exampleblock}{\textattachfile{naptar1.cpp}{naptar1.cpp}}
-    \lstinputlisting[style=cpp,linerange={66-74},numbers=left,firstnumber=66]{naptar1.cpp}
+    \lstinputlisting[style=cpp,linerange={67-75},numbers=left,firstnumber=67]{naptar1.cpp}
   \end{exampleblock}
 \end{frame}
 
@@ -340,7 +340,7 @@ struct datum {
 \begin{frame}
   \begin{exampleblock}{\textattachfile{naptar1.cpp}{naptar1.cpp}}
     \footnotesize
-    \lstinputlisting[style=cpp,linerange={76-89},numbers=left,firstnumber=76]{naptar1.cpp}
+    \lstinputlisting[style=cpp,linerange={77-90},numbers=left,firstnumber=77]{naptar1.cpp}
   \end{exampleblock}
 \end{frame}
 
@@ -350,12 +350,19 @@ struct datum {
     \vspace{-.2cm}
     \begin{verbatim}
 A megadott datum helyes.
-2024.3.20 az ev 80. napja, szerda.
+2024.03.20 az ev 80. napja, szerda.
 Hany nap van karacsonyig? 279
 2024 300. napja: 10.26
 \end{verbatim}
     \vspace{-.2cm}
   \end{block}
+  Az \texttt{iomanip} fejfájl néhány hasznos függvénye:
+  \begin{itemize}
+    \item[\hiv{\href{https://en.cppreference.com/w/cpp/io/manip/setw}{\texttt{setw()}}}] Mezőszélesség állítása
+    \item[\hiv{\href{https://en.cppreference.com/w/cpp/io/manip/setfill}{\texttt{setfill()}}}] Kitöltő karakter beállítása
+    \item[\hiv{\href{https://en.cppreference.com/w/cpp/io/manip/fixed}{\texttt{fixed}}}] Rögzített számú tizedesjegy megjelenítése
+    \item[\hiv{\href{https://en.cppreference.com/w/cpp/io/manip/setprecision}{\texttt{setprecision()}}}] Tizedesjegyek számának beállítása
+  \end{itemize}
 \end{frame}
 
 %22
