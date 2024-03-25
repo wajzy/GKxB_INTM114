@@ -1,0 +1,469 @@
+\documentclass[usenames,dvipsnames,aspectratio=169]{beamer}
+\usepackage{../common/prg}
+
+\title[7. előadás]{Programozás}
+\subtitle{(GKxB\_INTM114)}
+
+\begin{document}
+
+%1
+\begin{frame}[plain]
+  \titlepage
+  \logoalul
+\end{frame}
+
+%2
+\section{Mutatók}
+\subsection{Érték szerinti paraméter-átadás korlátai}
+\begin{frame}
+  Feladat:
+  \begin{itemize}
+    \item[] Készítsünk olyan függvényt, ami a két paraméterének értékét felcseréli!
+  \end{itemize}
+  Problémák:
+  \begin{itemize}
+    \item Érték szerinti paraméter-átadás
+    \item Csak egy visszatérési értéke lehet a függvénynek
+  \end{itemize}
+  \begin{exampleblock}{\textattachfile{csere1.cpp}{csere1.cpp}}
+    \scriptsize
+    \lstinputlisting[style=cpp,linerange={1-6},numbers=left,firstnumber=1]{csere1.cpp}
+  \end{exampleblock}
+\end{frame}
+
+%3
+\begin{frame}[fragile]
+  \small
+  \begin{alertblock}{\textattachfile{csere1.cpp}{csere1.cpp} -- Első próbálkozás, \texttt{csere1}}
+    \vspace{-.2cm}
+    \scriptsize
+    \lstinputlisting[style=cpp,linerange={8-12},numbers=left,firstnumber=8]{csere1.cpp}
+    \vspace{-.2cm}
+  \end{alertblock}
+  \small
+  \begin{alertblock}{\textattachfile{csere1.cpp}{csere1.cpp} -- A \texttt{main} részlete}
+    \vspace{-.2cm}
+    \scriptsize
+    \lstinputlisting[style=cpp,linerange={27-30},numbers=left,firstnumber=27]{csere1.cpp}
+    \vspace{-.2cm}
+  \end{alertblock}
+  \small
+  \begin{block}{Kimenet részlete}
+    \vspace{-.3cm}
+    \scriptsize
+    \begin{verbatim}
+eredeti ertekek:        a = 1, b = 2
+csere1 utan:            a = 1, b = 2
+\end{verbatim}
+    \vspace{-.3cm}
+  \end{block}
+\end{frame}
+
+%4
+\begin{frame}[fragile]
+  \begin{alertblock}{\textattachfile{csere1.cpp}{csere1.cpp} -- Második próbálkozás, \texttt{csere2}}
+    \vspace{-.2cm}
+    \scriptsize
+    \lstinputlisting[style=cpp,linerange={14-19},numbers=left,firstnumber=14]{csere1.cpp}
+    \vspace{-.2cm}
+  \end{alertblock}
+  \begin{alertblock}{\textattachfile{csere1.cpp}{csere1.cpp} -- A \texttt{main} részlete}
+    \vspace{-.2cm}
+    \scriptsize
+    \lstinputlisting[style=cpp,linerange={31-32},numbers=left,firstnumber=31]{csere1.cpp}
+    \vspace{-.2cm}
+  \end{alertblock}
+  \begin{block}{Kimenet részlete}
+    \vspace{-.3cm}
+    \scriptsize
+    \begin{verbatim}
+csere2 utan:            a = 2, b = 1
+\end{verbatim}
+    \vspace{-.3cm}
+  \end{block}
+\end{frame}
+
+%5
+\subsection{Mutatók legfontosabb tulajdonságai, operátorok}
+\begin{frame}[fragile]
+  Mi az a \emph{mutató} (pointer), és mire használható?
+  \begin{compactitem}
+    \item Memóriacím tárolására használható típus
+    \item Többféle típusa létezik, hogy kifejezze az ott tárolt adat típusát
+    \item Technikai megvalósítása hasonlít az egész számokéhoz
+    \item Mutatódefiníció: \emph{alaptípus}* \emph{azonosító};
+  \end{compactitem}
+  \begin{exampleblock}{Néhány lehetséges mutatódefiníció}
+    \vspace{-.4cm}
+    \small
+    \begin{verbatim}
+struct koordinata {
+  int x, y;
+};
+/* ... */
+char* pc;       // karaktert címző mutató
+int* pi;        // egészet címző mutató
+double* pd;     // valós számot c. m.
+koordinata* pk; // struktúrát c. m.
+void* pv;       // ismeretlen típusú adatot címző mutató
+\end{verbatim}
+    \vspace{-.4cm}
+  \end{exampleblock}
+\end{frame}
+
+%6
+\begin{frame}[fragile]
+  \begin{exampleblock}{\textattachfile{cim.cpp}{cim.cpp} -- Memóriacím képzése az \& (címképző, address-of) operátorral lehetséges}
+    \vspace{-.2cm}
+    \scriptsize
+    \lstinputlisting[style=cpp,linerange={5-12},numbers=left,firstnumber=5]{cim.cpp}
+    \vspace{-.2cm}
+  \end{exampleblock}
+  \begin{block}{Kimenet}
+    \vspace{-.3cm}
+    \scriptsize
+    \begin{verbatim}
+Az i valtozo memoriacime: 0x7ffeb6837cdc
+A k struktura memoriacime: 0x7ffeb6837ce0
+k.x helye: 0x7ffeb6837ce0, k.y helye: 0x7ffeb6837ce4
+A dt tomb memoriacime: 0x7ffeb6837cf0
+dt[0] helye: 0x7ffeb6837cf0, dt[1] helye: 0x7ffeb6837cf8
+\end{verbatim}
+    \vspace{-.3cm}
+  \end{block}
+\end{frame}
+
+%7
+\begin{frame}[fragile]
+  \begin{exampleblock}{\textattachfile{indirekcio.cpp}{indirekcio.cpp} -- Adott címen lévő érték elérése: * (indirekció, dereference) operátorral}
+    \vspace{-.2cm}
+    \footnotesize
+    \lstinputlisting[style=cpp,numbers=left]{indirekcio.cpp}
+    \vspace{-.2cm}
+  \end{exampleblock}
+  \begin{block}{Kimenet}
+    \vspace{-.3cm}
+    \footnotesize
+    \begin{verbatim}
+i = 5
+\end{verbatim}
+    \vspace{-.3cm}
+  \end{block}
+\end{frame}
+
+%8
+\begin{frame}[fragile]
+  \begin{exampleblock}{\textattachfile{csere1.cpp}{csere1.cpp} -- Harmadik próbálkozás, \texttt{csere3}}
+    \vspace{-.2cm}
+    \scriptsize
+    \lstinputlisting[style=cpp,linerange={21-25},numbers=left,firstnumber=21]{csere1.cpp}
+    \vspace{-.2cm}
+  \end{exampleblock}
+  \begin{exampleblock}{\textattachfile{csere1.cpp}{csere1.cpp} -- A \texttt{main} részlete}
+    \vspace{-.2cm}
+    \scriptsize
+    \lstinputlisting[style=cpp,linerange={33-35},numbers=left,firstnumber=33]{csere1.cpp}
+    \vspace{-.2cm}
+  \end{exampleblock}
+  \begin{block}{Kimenet részlete}
+    \vspace{-.3cm}
+    \scriptsize
+    \begin{verbatim}
+csere2 utan:            a = 2, b = 1
+csere3 utan:            a = 1, b = 2
+\end{verbatim}
+    \vspace{-.2cm}
+  \end{block}
+\end{frame}
+
+%9
+\begin{frame}
+  \footnotesize
+  \begin{exampleblock}{\textattachfile{teglalap2.cpp}{teglalap2.cpp} Téglalapok rajzolása, \texttt{bekerBFX}: Akarja folytatni a bevitelt? Ha igen, 
+mi a koordináta?}
+    \meret{7}
+    \vspace{-.2cm}
+    \lstinputlisting[style=cpp,linerange={38-56},numbers=left,firstnumber=38]{teglalap2.cpp}
+    \vspace{-.2cm}
+  \end{exampleblock}
+\end{frame}
+
+%10
+\begin{frame}
+  \small
+  \begin{exampleblock}{\textattachfile{teglalap2.cpp}{teglalap2.cpp}}
+    \vspace{-.2cm}
+    \scriptsize
+    \lstinputlisting[style=cpp,linerange={58-75},numbers=left,firstnumber=58]{teglalap2.cpp}
+    \vspace{-.2cm}
+  \end{exampleblock}
+\end{frame}
+
+%11
+\subsection{További tudnivalók a mutatókkal kapcsolatban}
+\begin{frame}
+  Néhány további tudnivaló mutatókkal kapcsolatban
+  \begin{itemize}
+    \item \kiemel{Vigyázz!} \texttt{i} egész, \texttt{pi1} és \texttt{pi2} viszont egészet címző mutatók!
+    \item A \kiemel{*} körül tetszőleges számú szóköz elhelyezhető
+    \item Mutató is kaphat inicializálással kezdőértéket
+  \end{itemize}
+  \begin{exampleblock}{\textattachfile{mutatok1.cpp}{mutatok1.cpp}}
+    \lstinputlisting[style=cpp,linerange={5-8},numbers=left,firstnumber=5]{mutatok1.cpp}
+  \end{exampleblock}
+\end{frame}
+
+%12
+\begin{frame}
+  \begin{itemize}
+    \item Ha valaminek nincs memóriacíme, akkor az \& operátor sem tudja előállítani
+  \end{itemize}
+  \begin{alertblock}{\textattachfile{mutatok1.cpp}{mutatok1.cpp}}
+    \small
+    \lstinputlisting[style=cpp,linerange={9-11},numbers=left,firstnumber=9]{mutatok1.cpp}
+  \end{alertblock}
+  \begin{itemize}
+    \item Értékadás általában csak azonos típusú mutatók között lehetséges
+  \end{itemize}
+  \begin{alertblock}{\textattachfile{mutatok1.cpp}{mutatok1.cpp}}
+    \small
+    \lstinputlisting[style=cpp,linerange={12-13},numbers=left,firstnumber=12]{mutatok1.cpp}
+  \end{alertblock}
+\end{frame}
+
+%13
+\begin{frame}
+  \begin{compactitem}
+    \small
+    \item Kivétel: \texttt{void*} bármilyen más mutató értékét felveheti ($\approx$ típusinformáció eldobása)
+  \end{compactitem}
+  \begin{exampleblock}{\textattachfile{mutatok1.cpp}{mutatok1.cpp}}
+    \vspace{-.2cm}
+    \small
+    \lstinputlisting[style=cpp,linerange={14-15},numbers=left,firstnumber=14]{mutatok1.cpp}
+    \vspace{-.2cm}
+  \end{exampleblock}
+  \begin{compactitem}
+    \small
+    \item Fordítva már nem megy: nem lehetünk benne biztosak, hogy azon a címen milyen típusú adat van
+    \item Explicit típuskonverzióval persze rávehető a fordító a műveletre, de vajon van értelme?
+  \end{compactitem}
+  \begin{alertblock}{\textattachfile{mutatok1.cpp}{mutatok1.cpp}}
+    \vspace{-.2cm}
+    \small
+    \lstinputlisting[style=cpp,linerange={16-18},numbers=left,firstnumber=16]{mutatok1.cpp}
+    \vspace{-.2cm}
+  \end{alertblock}
+\end{frame}
+
+%14
+\begin{frame}
+  \begin{itemize}
+    \small
+    \item Nem tudni, hogyan kell megjeleníteni az ismeretlen típusú adatot
+  \end{itemize}
+  \begin{alertblock}{\textattachfile{mutatok1.cpp}{mutatok1.cpp}}
+    \vspace{-.2cm}
+    \small
+    \lstinputlisting[style=cpp,linerange={19-20},numbers=left,firstnumber=19]{mutatok1.cpp}
+    \vspace{-.2cm}
+  \end{alertblock}
+  \begin{itemize}
+    \small
+    \item A \texttt{NULL} / \texttt{nullptr} speciális memóriacím: semmilyen adatot nem tárolnak ott, és
+    \item hiba, vagy valami hiányának jelzésére használják,
+    \item bármilyen típusú mutatóhoz hozzárendelhető érték
+    \item \texttt{NULL}: a 0 értékhez készített makró (C örökség, elavult), \texttt{nullptr}: mindenképpen mutató
+  \end{itemize}
+  \begin{exampleblock}{\textattachfile{mutatok1.cpp}{mutatok1.cpp}}
+    \vspace{-.2cm}
+    \footnotesize
+    \lstinputlisting[style=cpp,linerange={22-22},numbers=left,firstnumber=22]{mutatok1.cpp}
+    \vspace{-.2cm}
+  \end{exampleblock}
+\end{frame}
+
+%15
+\subsection{Mintapélda: dátumok kezelése}
+\begin{frame}
+  Probléma:
+  \begin{itemize}
+    \item[] struktúrák általában nagyok, függvényhívásnál a paraméter átadás a másolás miatt időigényes
+  \end{itemize}
+  \vfill
+  Megoldás:
+  \begin{itemize}
+    \item adjuk át a struktúra címét!
+    \item \kiemel{Veszély!} Ha a \emph{hívott} fv. módosítja a paramétert, annak a \emph{hívó} függvényben is lesz hatása!
+    \item Ha a \emph{hívott} függvénynek nem célja módosítani a paramétert: \kiemel{\texttt{const}} csak olvashatóvá teszi azt
+(bármilyen más változónál is használható \emph{típusmódosító})
+    \item Indirekció + tagelérés: \kiemel{\texttt{->}} operátorral, pl. \texttt{(*d).nap} $\equiv$ \texttt{d->nap}
+  \end{itemize}
+\end{frame}
+
+%16
+\begin{frame}
+  \begin{exampleblock}{\textattachfile{naptar2.cpp}{naptar2.cpp}}
+    \footnotesize
+    \lstinputlisting[style=cpp,linerange={22-35},numbers=left,firstnumber=22]{naptar2.cpp}
+  \end{exampleblock}
+\end{frame}
+
+%17
+\begin{frame}
+  \small
+  \begin{exampleblock}{\textattachfile{naptar2.cpp}{naptar2.cpp}}
+    \vspace{-.2cm}
+    \footnotesize
+    \lstinputlisting[style=cpp,linerange={75-89},numbers=left,firstnumber=75]{naptar2.cpp}
+    \vspace{-.2cm}
+  \end{exampleblock}
+\end{frame}
+
+%18
+\subsection{Mutatók és tömbök, mutatóaritmetika}
+\begin{frame}
+  \small
+  \begin{exampleblock}{\textattachfile{buborek2.cpp}{buborek2.cpp}}
+    \vspace{-.2cm}
+    \small
+    \lstinputlisting[style=cpp,linerange={1-14},numbers=left,firstnumber=1]{buborek2.cpp}
+    \vspace{-.2cm}
+  \end{exampleblock}
+\end{frame}
+
+%19
+\begin{frame}[fragile]
+  \small
+  \begin{exampleblock}{\textattachfile{buborek2.cpp}{buborek2.cpp}}
+    \vspace{-.2cm}
+    \footnotesize
+    \lstinputlisting[style=cpp,linerange={16-26},numbers=left,firstnumber=16]{buborek2.cpp}
+    \vspace{-.2cm}
+  \end{exampleblock}
+  \begin{block}{Kimenet}
+    \vspace{-.4cm}
+    \footnotesize
+    \begin{verbatim}
+Rendezes utan:
+-4      3       3       4       7       12      54      56
+\end{verbatim}
+    \vspace{-.3cm}
+  \end{block}
+\end{frame}
+
+%20
+\begin{frame}
+  Újdonságok:
+  \begin{itemize}
+    \item Tömb elemszámát nem \emph{kell} megadni a formális paraméterlistán (de a fv.-nek valahonnan tudnia kell, hány tömbelemet kell rendezni)
+    \item A \emph{hívott} függvény \kiemel{módosította} a paraméter tömböt!
+  \end{itemize}
+  Magyarázat:
+  \begin{itemize}
+    \item A tömbök általában nagyok $\to$ \kiemel{mindig} a címet adják át!
+    \item A tömbök azonosítója egy \emph{konstans mutató} (a mutatót nem, de a mutatott helyen lévő értéket lehet módosítani), pl.\\ 
+    \texttt{int t[]} $\equiv$ \texttt{int* const t}
+    \item A tömb tartalma csak olvashatóvá tehető: \\ 
+    \texttt{const int t[]} $\equiv$ \texttt{const int* const t}
+    \item Hátulról előre olvasva: \emph{\texttt{t}} egy \emph{\texttt{const}}-ans mutató (\emph{\texttt{*}}), ami olyan \emph{\texttt{int}}-et címez ami \emph{\texttt{const}}-ans.
+  \end{itemize}
+\end{frame}
+
+%21
+\begin{frame}
+  \begin{exampleblock}{\textattachfile{buborek3.cpp}{buborek3.cpp}}
+    \vspace{-.2cm}
+    \footnotesize
+    \lstinputlisting[style=cpp,linerange={16-30},numbers=left,firstnumber=16]{buborek3.cpp}
+    \vspace{-.2cm}
+  \end{exampleblock}
+\end{frame}
+
+%22
+\begin{frame}
+  Mutatóaritmetika: hasonlóan végezhető művelet mutatókkal, mint egészekkel:
+  \begin{itemize}
+    \item Mutató növelhető, csökkenthető $\to$ a tényleges cím a mutatott adat méretének többszörösével változik
+    \item Mutatók összehasonlíthatóak (relációk)
+    \item tömbelemCíme = tömbKezdőcíme + index*sizeof(tömbelemTípusa)
+    \item \texttt{tomb[index]} $\equiv$ \texttt{*(tomb + index)}
+    \item A \texttt{void*} mutató kivételes: a mutatott elem mérete ismeretlen
+    \item Azonos tömb elemeit címző mutatók különbsége képezhető
+  \end{itemize}
+\end{frame}
+
+%23
+\begin{frame}[fragile]
+  \begin{exampleblock}{\textattachfile{mutatok2.cpp}{mutatok2.cpp}}
+    \vspace{-.2cm}
+    \footnotesize
+    \lstinputlisting[style=cpp,linerange={5-12},numbers=left,firstnumber=5]{mutatok2.cpp}
+    \vspace{-.2cm}
+  \end{exampleblock}
+  \begin{block}{Kimenet}
+    \vspace{-.3cm}
+    \begin{verbatim}
+Elso elem erteke (cime):        100 (0x7ffc05f63510)
+Masodik elem erteke (cime):     200 (0x7ffc05f63514)
+Harmadik elem erteke (cime):    300 (0x7ffc05f63518)     
+    \end{verbatim}
+    \vspace{-.6cm}
+  \end{block}
+\end{frame}
+
+%24
+\begin{frame}
+  \begin{exampleblock}{\textattachfile{buborek4.cpp}{buborek4.cpp}}
+    \lstinputlisting[style=cpp,linerange={16-21},numbers=left,firstnumber=16]{buborek4.cpp}
+  \end{exampleblock}
+\end{frame}
+
+%25
+\section{Véletlenszám generálás}
+\subsection{A \emph{C} nyelv függvénykönytárának szolgáltatásai}
+\begin{frame}
+  A C nyelvből örökölt megoldás:
+  \begin{itemize}
+    \item \hiv{\href{https://en.wikipedia.org/wiki/Pseudorandom_number_generator}{Álvéletlen számok}} előállítása 
+(PseudoRandom Number Generator, PRNG)
+    \item Szükséges fejfájl: \texttt{cstdlib} vagy \texttt{stdlib.h}
+    \item Kezdőérték: \texttt{void srand(unsigned int seed);}, ahol \texttt{seed} a kezdőérték
+    \item Véletlen számok: $0 \leq$ \texttt{int rand(void);} $\leq$ \texttt{RAND\_MAX}
+  \end{itemize}
+  \vfill
+  Példák:
+   \begin{itemize}
+     \item \texttt{x = (double)rand()/RAND\_MAX} ahol $\left\{x|x\in\mathbb{R}, 0 \leq x \leq 1 \right\}$
+     \item \texttt{x = MIN + rand()\%(MAX-MIN+1)} ahol $\left\{x|x\in\mathbb{Z}, MIN \leq x \leq MAX \right\}$
+   \end{itemize}
+\end{frame}
+
+%26
+\begin{frame}
+  Probléma: azonos \texttt{seed} $\to$ azonos számsorozatok\\
+  Megoldás:
+  \begin{itemize}
+    \item \texttt{seed} minden programindításnál más legyen $\to$ pontos idő
+    \item Szükséges fejfájl: \texttt{ctime} vagy \texttt{time.h}
+    \item \texttt{time\_t time(time\_t *t);}
+    \item V.t. érték: \texttt{time\_t} (\texttt{long}) típusban az 1970-01-01 00:00:00 +0000 (UTC) (\hiv{\href{https://hu.wikipedia.org/wiki/Unix-id\%C5\%91}{Unix-idő}}, epoch)
+óta eltelt \kiemel{másodpercek (!)} száma, amit \texttt{t} címen is eltárol, ha az nem \texttt{nullptr}
+  \end{itemize}
+  A C++ nyelv \hiv{\href{http://www.cplusplus.com/reference/random/}{sokkal kifinomultabb képességekkel}} rendelkezik.\\
+  \hiv{\href{http://www.cplusplus.com/faq/beginners/random-numbers/}{További tudnivalók}} a véletlenszám generálással 
+kapcsolatban.
+\end{frame}
+
+%27
+\begin{frame}
+  \small
+  \begin{exampleblock}{\textattachfile{tipp.cpp}{tipp.cpp}}
+    \vspace{-.2cm}
+    \scriptsize
+    \lstinputlisting[style=cpp,numbers=left]{tipp.cpp}
+    \vspace{-.2cm}
+  \end{exampleblock}
+\end{frame}
+
+\end{document}
