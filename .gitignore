@@ -15,3 +15,5 @@
 *.synctex.gz
 *.out
 *.exe
+*.fls
+*.fdb_latexmk
