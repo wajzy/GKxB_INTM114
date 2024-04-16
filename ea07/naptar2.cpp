@@ -1,4 +1,5 @@
 #include <iostream>
+#include <iomanip>
 using namespace std;
 
 struct datum {
@@ -19,16 +20,16 @@ int napok(int ev, int ho) { // honap napjainak szamat
   }
 }
 
-bool ellenoriz(const datum* d) {     // datum tartalmi 
-  if(d->ho<1 or d->ho>12) return false; // ellenorzese
+bool ellenoriz(const datum* d) {     // datum tartalmi ellenorzese
+  if(d->ho<1 or d->ho>12) return false;
   int n = napok(d->ev, d->ho);
   if(d->nap<1 or d->nap>n) return false;
   return true;
 }
 
-int evNapja(const datum* d) {  // ev napjanak 
-  int n = d->nap;              // meghatarozasa
-  for(int h=1; h<d->ho; h++) { // ev, ho, napbol
+int evNapja(const datum* d) {  // ev napjanak meghatarozasa
+  int n = d->nap;              // ev, ho, napbol
+  for(int h=1; h<d->ho; h++) {
     n += napok(d->ev, h);
   }
   return n;
@@ -46,9 +47,9 @@ string hetNapja(const datum* d) { // het napjanak
   return napNev[hn==1 ? 6 : hn-2];
 }
 
-int bazis(const datum* d) { // 0000.01.01 ota 
-  int b = 0;                // eltelt napok szama
-  for(int e=0; e<d->ev; e++) {
+int bazis(const datum* d, int bazisEv) { // bazisEv.01.01 ota eltelt napok szama 
+  int b = 0;
+  for(int e=bazisEv; e<d->ev; e++) {
     b += 365 + szoko(e);
   }
   for(int h=1; h<d->ho; h++) {
@@ -59,8 +60,9 @@ int bazis(const datum* d) { // 0000.01.01 ota
 }
 
 int kulonbseg(const datum* tol, const datum* ig) {
-  return bazis(ig)-bazis(tol); // ket datum kozott
-}                              // eltelt napok szama
+	int bazisEv = tol->ev < ig->ev ? tol->ev : ig->ev;
+  return bazis(ig, bazisEv)-bazis(tol, bazisEv); // ket datum kozott
+}                                                // eltelt napok szama
 
 datum hoEsNap(int ev, int evNapja) { // nap even beluli 
   datum d = { ev, 0, evNapja };      // szamabol ho es 
@@ -73,18 +75,17 @@ datum hoEsNap(int ev, int evNapja) { // nap even beluli
 }
 
 int main(void) {
-  datum d = {2018, 3, 15};
-  cout << "A megadott datum " 
-       << (ellenoriz(&d)?"helyes":"hibas")
-       << ".\n" << d.ev << '.' << d.ho << '.' << d.nap
-       << " az ev " << evNapja(&d) << ". napja, " 
-       << hetNapja(&d) << ".\n";
-  datum kar = {2018, 12, 24};
+  datum d = {2024, 3, 20};
+  cout << "A megadott datum " << (ellenoriz(&d)?"helyes":"hibas")
+       << ".\n" << d.ev << '.' << setw(2) << setfill('0') << d.ho 
+       << '.' << setw(2) << setfill('0') << d.nap << " az ev " 
+       << evNapja(&d) << ". napja, " << hetNapja(&d) << ".\n";
+  datum kar = {2024, 12, 24};
   cout << "Hany nap van karacsonyig? " << kulonbseg(&d, &kar);
   int evNapja = 300;
   d = hoEsNap(d.ev, evNapja);
   cout << '\n' << d.ev << ' ' << evNapja << ". napja: "
-       << d.ho << '.' << d.nap << endl;
+       << setw(2) << setfill('0') << d.ho << '.' << d.nap << endl;
   return 0;
 }
 
