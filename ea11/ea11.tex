@@ -1,0 +1,260 @@
+\documentclass[usenames,dvipsnames,aspectratio=169]{beamer}
+\usepackage{../common/prg}
+
+\title[11. előadás]{Programozás}
+\subtitle{(GKxB\_INTM114)}
+
+\begin{document}
+
+%1
+\begin{frame}[plain]
+  \titlepage
+  \logoalul
+\end{frame}
+
+%2
+\section{Egyszeresen láncolt lista}
+\subsection{Verem megvalósítása listával}
+\begin{frame}
+  Verem megvalósítható tömbbel, de annak mérete véges, fordítási időben adott.
+  Lehetséges megoldás: \hiv{\href{https://hu.wikipedia.org/wiki/L\%C3\%A1ncolt_lista}{láncolt lista}} (Linked List, önhivatkozó adatszerkezet)
+  \begin{center}
+    \includegraphics[scale=0.8]{list1.pdf}\\
+    \scriptsize
+    Egyszeresen láncolt lista (Singly Linked List)
+  \end{center}
+  \begin{exampleblock}{Felhasználható struktúra}
+    \footnotesize
+    struct Lista1 \{\\
+    \qquad \kiemel{ADAT} adat;\\
+    \qquad Lista1 *kov;\\
+    \};\\
+  \end{exampleblock}
+\end{frame}
+
+%3
+\begin{frame}
+  \scriptsize
+  \begin{columns}[T]
+    \column{0.7\textwidth}
+      \begin{exampleblock}{\textattachfile{veremTeszt2.cpp}{veremTeszt2.cpp}}
+        \scriptsize
+        \vspace{-0.3cm}
+        \lstinputlisting[style=cpp,numbers=left]{veremTeszt2.cpp}
+        \vspace{-0.3cm}
+      \end{exampleblock}
+    \column{0.25\textwidth}
+      \begin{exampleblock}{\textattachfile{verem2.h}{verem2.h}}
+        \normalsize
+        \lstinputlisting[style=cpp,linerange={4-7},numbers=right,firstnumber=4]{verem2.h}
+      \end{exampleblock}
+  \end{columns}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\include{veremBerak}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\include{veremKivesz}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%21
+\subsection{Néhány általános listaművelet megvalósítása}
+\begin{frame}
+  Készítsünk általánosan használható függvényeket egyszeresen láncolt lista manipulálásához!
+  \scriptsize
+  \begin{exampleblock}{\textattachfile{listaTeszt1.cpp}{listaTeszt1.cpp} (\textattachfile{Lista1.cpp}{Lista1.cpp}, %
+  \textattachfile{Lista1.h}{Lista1.h})}
+    \meret{7}
+    \vspace{-0.2cm}
+    \lstinputlisting[style=cpp,numbers=left]{listaTeszt1.cpp}
+    \vspace{-0.2cm}
+  \end{exampleblock}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\include{beszur1}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%30
+\subsection{Egyszeresen láncolt lista bejárása}
+\begin{frame}[fragile]
+  \scriptsize
+  \begin{columns}[t]
+    \column{.49\textwidth}
+      \includegraphics[scale=.7]{lista1/list1-10.pdf} \\
+      \vspace{1cm}
+      \includegraphics[scale=.7]{lista1/list1-12.pdf}
+    \column{.49\textwidth}
+      \includegraphics[scale=.7]{lista1/list1-11.pdf} \\
+      \begin{exampleblock}{\textattachfile{Lista1.cpp}{Lista1.cpp}}
+        \scriptsize
+        \lstinputlisting[style=cpp,linerange={20-27},numbers=right,firstnumber=20]{Lista1.cpp}
+      \end{exampleblock}
+  \end{columns}
+\end{frame}
+
+%31
+\subsection{Egyszeresen láncolt lista törlése}
+\begin{frame}[fragile]
+  \scriptsize
+  \begin{columns}[T]
+    \column{.4\textwidth}
+      \includegraphics[scale=.6]{lista1/list1-20.pdf} \\
+      \hrulefill \\
+      \includegraphics[scale=.6]{lista1/list1-21.pdf} \\
+      \hrulefill \\
+      \includegraphics[scale=.6]{lista1/list1-22.pdf}
+    \column{.55\textwidth}
+      \begin{exampleblock}{\textattachfile{Lista1.cpp}{Lista1.cpp}}
+        \small
+        \lstinputlisting[style=cpp,linerange={31-38},numbers=right,firstnumber=38]{Lista1.cpp}
+      \end{exampleblock}
+  \end{columns}
+\end{frame}
+
+%32
+\begin{frame}[fragile]
+  \scriptsize
+  \begin{columns}[T]
+    \column{.4\textwidth}
+      \includegraphics[scale=.6]{lista1/list1-23.pdf} \\
+      \hrulefill \\
+      \includegraphics[scale=.6]{lista1/list1-24.pdf} \\
+      \hrulefill \\
+      \includegraphics[scale=.6]{lista1/list1-25.pdf}
+    \column{.55\textwidth}
+      \begin{exampleblock}{\textattachfile{Lista1.cpp}{Lista1.cpp}}
+        \small
+        \lstinputlisting[style=cpp,linerange={31-38},numbers=right,firstnumber=38]{Lista1.cpp}
+      \end{exampleblock}
+  \end{columns}
+\end{frame}
+
+%33
+\section{Kétszeresen láncolt lista}
+\subsection{Sor megvalósítása listával}
+\begin{frame}
+  \small
+  Készítsük el a verem mintájára a sor megvalósítását is láncolt listával!\\
+  Probléma: a lista utolsó elemének eltávolítása nehézkes.\\
+  Megoldás: kétszeresen láncolt lista.
+  \begin{center}
+    \includegraphics[scale=0.8]{list2.pdf} \\
+    \tiny
+    Kétszeresen láncolt lista (Doubly Linked List)
+  \end{center}
+  \begin{exampleblock}{Felhasználható struktúra}
+    \scriptsize
+    struct Lista2 \{\\    
+    \qquad \kiemel{ADAT} adat;\\
+    \qquad Lista2 *elozo, *kov;\\
+    \};\\
+  \end{exampleblock}
+\end{frame}
+
+%34
+\begin{frame}
+  \scriptsize
+  \begin{columns}[T]
+    \column{0.6\textwidth}
+      \begin{exampleblock}{\textattachfile{sorTeszt2.cpp}{sorTeszt2.cpp}}
+        \scriptsize
+        \vspace{-0.2cm}
+        \lstinputlisting[style=cpp,numbers=left]{sorTeszt2.cpp}
+        \vspace{-0.2cm}
+      \end{exampleblock}
+    \column{0.35\textwidth}
+      \begin{exampleblock}{\textattachfile{sor2.h}{sor2.h}}
+        \small
+        \lstinputlisting[style=cpp,linerange={4-7},numbers=right,firstnumber=4]{sor2.h}
+      \end{exampleblock}
+  \end{columns}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\include{sorBerak}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\include{sorKivesz}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%59
+\subsection{Néhány általános listaművelet megvalósítása}
+\begin{frame}
+  Készítsünk ismét általános célú függvényeket!
+  \begin{exampleblock}{\textattachfile{listaTeszt2.cpp}{listaTeszt2.cpp} %
+(\textattachfile{Lista2.cpp}{Lista2.cpp}, \textattachfile{Lista2.h}{Lista2.h})}
+    \footnotesize
+    \vspace{-.2cm}
+    \lstinputlisting[style=cpp,linerange={5-17},numbers=left,firstnumber=5]{listaTeszt2.cpp}
+    \vspace{-.2cm}
+  \end{exampleblock}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\include{beszur2}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%66
+\begin{frame}[fragile]
+  \begin{exampleblock}{\textattachfile{listaTeszt2.cpp}{listaTeszt2.cpp} %
+(\textattachfile{Lista2.cpp}{Lista2.cpp}, \textattachfile{Lista2.h}{Lista2.h})}
+    \small
+    \vspace{-.2cm}
+    \lstinputlisting[style=cpp,linerange={18-24},numbers=left,firstnumber=18]{listaTeszt2.cpp}
+    \vspace{-.2cm}
+  \end{exampleblock}
+  \begin{block}{Kimenet}
+    \small
+    \vspace{-.2cm}
+    \begin{verbatim}
+0       1       2       3       4       5       6       
+0       1       2       3       666     4       5       6       
+1       2       3       4       5       6
+\end{verbatim}
+    \vspace{-.2cm}
+  \end{block}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\include{torol2}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%73
+\subsection{Kétszeresen láncolt lista bejárása, törlése}
+\begin{frame}
+  \begin{exampleblock}{\textattachfile{Lista2.cpp}{Lista2.cpp}}
+    \footnotesize
+    \vspace{-.2cm}
+    \lstinputlisting[style=cpp,linerange={42-48},numbers=left,firstnumber=42]{Lista2.cpp}
+    \lstinputlisting[style=cpp,linerange={22-28},numbers=left,firstnumber=22]{Lista2.cpp}
+    \vspace{-.2cm}
+  \end{exampleblock}
+\end{frame}
+
+\end{document}
