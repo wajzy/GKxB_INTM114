@@ -1,5 +1,4 @@
 #include <iostream>
-#include <cstddef> // nullptr mutato
 #include "Lista1.h"
 using namespace std;
 
